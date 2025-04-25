@@ -1,6 +1,8 @@
 import { StyleSheet,View,Text} from 'react-native';
-export default function HomeScreen() {
+import { LinearGradient } from 'expo-linear-gradient';
 
+
+export default function HomeScreen() {
  // 今日の日付を取得
  const today = new Date();
  const dateString = today.toLocaleDateString();
@@ -19,6 +21,7 @@ export default function HomeScreen() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
