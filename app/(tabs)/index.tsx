@@ -1,15 +1,20 @@
 import { StyleSheet,View,Text} from 'react-native';
 export default function HomeScreen() {
+
+ // 今日の日付を取得
+ const today = new Date();
+ const dateString = today.toLocaleDateString();
+
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text>こんにち</Text>
+        <Text style={styles.dateText}>{dateString}</Text>
       </View>
       <View style={styles.houseworkContainer}>
-        <Text>こんにち</Text>
+        <Text style={styles.defaultText}>こんにち</Text>
       </View>
       <View style={styles.timerContainer}>
-        <Text>こんにち</Text>
+        <Text style={styles.defaultText}>こんにち</Text>
       </View>
     </View>
   );
@@ -30,6 +35,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop:10,
     backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
     shadowColor: '#000',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
@@ -44,6 +51,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop:10,
     backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
     shadowColor: '#000',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
@@ -58,10 +67,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop:10,
     backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
     shadowColor: '#000',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
+  },
+  defaultText: {
+    fontSize: 18,
+    fontFamily: 'Arial', 
+    color: '#333',
+  },
+  dateText: {
+    fontSize: 20, 
+    fontFamily: 'Arial',  
+    color: '#000',  
   },
 });
