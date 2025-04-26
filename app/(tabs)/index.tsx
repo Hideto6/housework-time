@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet,View,Text,Button} from 'react-native';
+import { StyleSheet,View,Text,TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function HomeScreen() {
@@ -53,12 +53,26 @@ export default function HomeScreen() {
         </View>
       </View>
       <View style={styles.timerContainer}>
-        <Text style={styles.timerText}>{timeString}</Text>
-        <Button
-          title={isRunning ? "停止" : "開始"}
-          onPress={() => setIsRunning((prev) => !prev)}
-        />
-        <Button title="リセット" onPress={resetTimer} />
+        <View style={styles.counterContainer}>
+          <Text style={styles.timerText}>{timeString}</Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.buttonStart}
+            onPress={() => setIsRunning((prev) => !prev)}
+          >
+            <Text style={styles.buttonText}>{isRunning ? 
+              <MaterialCommunityIcons name="pause" size={40} color="white" /> 
+              : <MaterialCommunityIcons name="play" size={40} color="white" />}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonReset}
+            onPress={resetTimer}
+          >
+            <MaterialCommunityIcons name="autorenew" size={40} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
     
@@ -91,7 +105,7 @@ const styles = StyleSheet.create({
   },
   houseworkContainer:{
     width: 300,
-    height: 400,
+    height: 300,
     borderColor: '#d2d2d2',
     borderWidth: 1,
     borderRadius: 10,
@@ -107,19 +121,38 @@ const styles = StyleSheet.create({
   },
   timerContainer:{
     width: 300,
-    height: 100,
+    height: 200,
     borderColor: '#d2d2d2',
     borderWidth: 1,
     borderRadius: 10,
     marginTop:10,
     backgroundColor:'white',
     justifyContent:'center',
+    flexDirection:'column',
     alignItems:'center',
     shadowColor: '#000',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
+  },
+  counterContainer: {
+    width: 300,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:'white',
+    flexDirection:'row',
+
+  },
+  buttonContainer: {
+    width: 300,
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor:'white',
+    flexDirection:'row',
+
   },
   placecontainer: {
     width: 300,
@@ -157,13 +190,44 @@ const styles = StyleSheet.create({
     paddingRight:50,
   },
   timerText: {
-    fontSize: 30,
+    fontSize: 60,
     fontFamily: 'Arial', 
-    color: 'black',
+    color: 'blue',
   },
   dateText: {
     fontSize: 30, 
     fontFamily: 'Arial',  
     color: '#000',  
+  },
+  buttonStart: {
+    backgroundColor: '#3EAAFC',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+    marginTop: 10,
+    alignItems: 'center',
+    shadowColor: '#3EAAFC',  // 影の色
+    shadowOpacity: 0.8,  // 影の透明度
+    shadowOffset: { width: 0, height: 2 },  // 影の位置
+    shadowRadius: 7,  // 影のぼかしの半径
+    elevation: 5,  // Android用
+  },
+  buttonReset: {
+    backgroundColor: '#3EAAFC',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+    marginTop: 10,
+    alignItems: 'center',
+    shadowColor: '#3EAAFC',  // 影の色
+    shadowOpacity: 100,  // 影の透明度
+    shadowOffset: { width: 0, height: 2 },  // 影の位置
+    shadowRadius: 7,  // 影のぼかしの半径
+    elevation: 5,  // Android用
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
