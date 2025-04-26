@@ -1,10 +1,41 @@
-import { StyleSheet,View,Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet,View,Text,Button} from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function HomeScreen() {
  // 今日の日付を取得
  const today = new Date();
  const dateString = today.toLocaleDateString();
+
+ const [seconds, setSeconds] = useState(10 * 60); // 初期設定 10分
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (isRunning && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      clearInterval(interval);
+      setIsRunning(false); // タイマーが終了したら停止
+    }
+
+    return () => clearInterval(interval); // クリーンアップ
+  }, [isRunning, seconds]);
+
+  // タイマーのリセット
+  const resetTimer = () => {
+    setSeconds(10 * 60); // 10分にリセット
+    setIsRunning(false); // 停止
+  };
+
+  // 時間と分に変換
+  const minutes = Math.floor(seconds / 60);
+  const displaySeconds = seconds % 60;
+  const timeString = `${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
+
+
 
   return (
     <View style={styles.container}>
@@ -22,9 +53,15 @@ export default function HomeScreen() {
         </View>
       </View>
       <View style={styles.timerContainer}>
-        <Text style={styles.timerText}>10:00</Text>
+        <Text style={styles.timerText}>{timeString}</Text>
+        <Button
+          title={isRunning ? "停止" : "開始"}
+          onPress={() => setIsRunning((prev) => !prev)}
+        />
+        <Button title="リセット" onPress={resetTimer} />
       </View>
     </View>
+    
   );
 }
 
