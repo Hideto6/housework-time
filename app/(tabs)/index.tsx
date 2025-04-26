@@ -54,11 +54,11 @@ export default function HomeScreen() {
           <Text style={styles.titleText}> 今日の家事タイム</Text>
         </View>
         <View style={styles.placeContainer}>
-          <Text style={styles.houseworkText}>リビング</Text>
+          <Text style={styles.houseworkText}>リビング　</Text>
           <MaterialCommunityIcons name="vacuum" size={40} color="black" />
         </View>
         <View style={styles.nextHouseworkContainer}>
-          <Text style={styles.nextHomeworkText}>次回の家事タイム...</Text>
+          <Text style={styles.nextHomeworkText}>次回の家事タイム..</Text>
         </View>
       </View>
 
