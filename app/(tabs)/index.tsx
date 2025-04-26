@@ -1,6 +1,5 @@
 import { StyleSheet,View,Text} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function HomeScreen() {
  // 今日の日付を取得
@@ -13,10 +12,17 @@ export default function HomeScreen() {
         <Text style={styles.dateText}>{dateString}</Text>
       </View>
       <View style={styles.houseworkContainer}>
-        <Text style={styles.defaultText}>こんにち</Text>
+        <Text style={styles.todaysHomeworkText}>今日の家事タイム</Text>
+        <View style={styles.placecontainer}>
+          <Text style={styles.homeworkText}>リビング　</Text>
+          <MaterialCommunityIcons name="vacuum" size={40} color="black" />
+        </View>
+        <View style={styles.nextHomeworkContainer}>
+          <Text style={styles.nextHomeworkText}>次回の家事タイム...</Text>
+        </View>
       </View>
       <View style={styles.timerContainer}>
-        <Text style={styles.defaultText}>こんにち</Text>
+        <Text style={styles.timerText}>10:00</Text>
       </View>
     </View>
   );
@@ -54,7 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop:10,
     backgroundColor:'white',
-    justifyContent:'center',
+    justifyContent:'space-around',
     alignItems:'center',
     shadowColor: '#000',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
@@ -78,13 +84,48 @@ const styles = StyleSheet.create({
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
   },
-  defaultText: {
-    fontSize: 18,
+  placecontainer: {
+    width: 300,
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:'white',
+    flexDirection:'row',
+  },
+  nextHomeworkContainer: {
+    width: 300,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor:'white',
+    flexDirection:'row',
+  },
+  todaysHomeworkText: {
+    fontSize: 25,
     fontFamily: 'Arial', 
-    color: '#333',
+    color: '#E95A5A',
+    fontWeight:'bold',
+  },
+  homeworkText: {
+    fontSize: 30,
+    fontFamily: 'Arial', 
+    color: 'black',
+    fontWeight:'bold',
+  },
+  nextHomeworkText: {
+    fontSize: 15,
+    fontFamily: 'Arial', 
+    color: 'black',
+    fontWeight:'bold',
+    paddingRight:50,
+  },
+  timerText: {
+    fontSize: 30,
+    fontFamily: 'Arial', 
+    color: 'black',
   },
   dateText: {
-    fontSize: 20, 
+    fontSize: 30, 
     fontFamily: 'Arial',  
     color: '#000',  
   },
