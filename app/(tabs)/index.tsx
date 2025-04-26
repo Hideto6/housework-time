@@ -40,15 +40,24 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dateText}>{dateString}</Text>
+        <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>日付</Text>
+        </View>
+        <View style={styles.daytitleContainer}>
+          <Text style={styles.dateText}>{dateString}</Text>
+        </View>
       </View>
       <View style={styles.houseworkContainer}>
-        <Text style={styles.todaysHomeworkText}>今日の家事タイム</Text>
-        <View style={styles.placecontainer}>
+        <View style={styles.titleContainer}>
+          <MaterialCommunityIcons name="lightbulb-on" size={30} color="#FFDB10" />
+          <Text style={styles.titleText}> 今日の家事タイム</Text>
+        </View>
+        <View style={styles.placeContainer}>
           <Text style={styles.homeworkText}>リビング　</Text>
           <MaterialCommunityIcons name="vacuum" size={40} color="black" />
         </View>
-        <View style={styles.nextHomeworkContainer}>
+
+        <View style={styles.nextHouseworkContainer}>
           <Text style={styles.nextHomeworkText}>次回の家事タイム...</Text>
         </View>
       </View>
@@ -119,6 +128,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
   },
+  titleContainer:{
+    width: 290,
+    height: 30,
+    backgroundColor:'white',
+    justifyContent:'flex-start',
+    alignItems:'center',
+    flexDirection:'row',
+    paddingLeft:10,
+  },
   timerContainer:{
     width: 300,
     height: 200,
@@ -154,24 +172,24 @@ const styles = StyleSheet.create({
     flexDirection:'row',
 
   },
-  placecontainer: {
-    width: 300,
+  placeContainer: {
+    width: 280,
     height: 150,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor:'white',
     flexDirection:'row',
   },
-  nextHomeworkContainer: {
-    width: 300,
+  nextHouseworkContainer: {
+    width: 280,
     height: 50,
     alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor:'white',
     flexDirection:'row',
   },
-  todaysHomeworkText: {
-    fontSize: 25,
+  titleText: {
+    fontSize: 20,
     fontFamily: 'Arial', 
     color: '#E95A5A',
     fontWeight:'bold',
@@ -220,7 +238,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     shadowColor: '#3EAAFC',  // 影の色
-    shadowOpacity: 100,  // 影の透明度
+    shadowOpacity: 0.8,  // 影の透明度
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowRadius: 7,  // 影のぼかしの半径
     elevation: 5,  // Android用
