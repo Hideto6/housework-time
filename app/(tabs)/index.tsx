@@ -40,10 +40,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>日付</Text>
+        <View style={styles.dayTitleContainer}>
+        <MaterialCommunityIcons name="calendar-blank" size={24} color="#28B4FF" />
+            <Text style={styles.dayTitleText}>日付</Text>
         </View>
-        <View style={styles.daytitleContainer}>
+        <View style={styles.currentTimeContainer}>
           <Text style={styles.dateText}>{dateString}</Text>
         </View>
       </View>
@@ -53,7 +54,7 @@ export default function HomeScreen() {
           <Text style={styles.titleText}> 今日の家事タイム</Text>
         </View>
         <View style={styles.placeContainer}>
-          <Text style={styles.homeworkText}>リビング　</Text>
+          <Text style={styles.houseworkText}>リビング　</Text>
           <MaterialCommunityIcons name="vacuum" size={40} color="black" />
         </View>
 
@@ -97,13 +98,13 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
   },
   dayContainer:{
-    width: 300,
-    height: 100,
-    borderColor: '#d2d2d2',
+    width: 360,
+    height: 80,
+    borderColor: '#BAE7FF',
     borderWidth: 1,
     borderRadius: 10,
     marginTop:10,
-    backgroundColor:'white',
+    backgroundColor:'#BAE7FF',
     justifyContent:'center',
     alignItems:'center',
     shadowColor: '#000',  // 影の色
@@ -111,6 +112,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,  // 影の透明度
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
+  },
+    dayTitleContainer:{
+    width: 350,
+    height: 30,
+    justifyContent:'flex-start',
+    alignItems:'center',
+    flexDirection:'row',
+    paddingLeft:25,
+  },
+  currentTimeContainer:{
+    width: 350,
+    height: 30,
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'row',
+    paddingLeft:10,
   },
   houseworkContainer:{
     width: 300,
@@ -131,7 +148,6 @@ const styles = StyleSheet.create({
   titleContainer:{
     width: 290,
     height: 30,
-    backgroundColor:'white',
     justifyContent:'flex-start',
     alignItems:'center',
     flexDirection:'row',
@@ -194,7 +210,13 @@ const styles = StyleSheet.create({
     color: '#E95A5A',
     fontWeight:'bold',
   },
-  homeworkText: {
+  dayTitleText: {
+    fontSize: 20,
+    fontFamily: 'Arial', 
+    color: '#28B4FF',
+    fontWeight:'bold',
+  },
+  houseworkText: {
     fontSize: 30,
     fontFamily: 'Arial', 
     color: 'black',
@@ -215,7 +237,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 30, 
     fontFamily: 'Arial',  
-    color: '#000',  
+    color: 'white',  
   },
   buttonStart: {
     backgroundColor: '#3EAAFC',
