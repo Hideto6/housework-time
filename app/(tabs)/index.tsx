@@ -49,7 +49,7 @@ export default function HomeScreen() {
         </View>
       </View>
       <View style={styles.houseworkContainer}>
-        <View style={styles.titleContainer}>
+        <View style={styles.houseworkTitleContainer}>
           <MaterialCommunityIcons name="lightbulb-on" size={30} color="#FFDB10" />
           <Text style={styles.titleText}> 今日の家事タイム</Text>
         </View>
@@ -63,7 +63,11 @@ export default function HomeScreen() {
         </View>
       </View>
       <View style={styles.timerContainer}>
-        <View style={styles.counterContainer}>
+        <View style={styles.timerTitleContainer}>
+        <MaterialCommunityIcons name="timer-outline" size={24} color="black" />
+          <Text style={styles.titleText}> タイマー</Text>
+        </View>
+        <View style={styles.timerDisplayContainer}>
           <Text style={styles.timerText}>{timeString}</Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -75,7 +79,6 @@ export default function HomeScreen() {
               <MaterialCommunityIcons name="pause" size={40} color="white" /> 
               : <MaterialCommunityIcons name="play" size={40} color="white" />}</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.buttonReset}
             onPress={resetTimer}
@@ -103,17 +106,17 @@ const styles = StyleSheet.create({
     borderColor: '#BAE7FF',
     borderWidth: 1,
     borderRadius: 10,
-    marginTop:10,
+    marginTop:15,
     backgroundColor:'#BAE7FF',
     justifyContent:'center',
     alignItems:'center',
-    shadowColor: '#000',  // 影の色
+    shadowColor: 'black',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
   },
-    dayTitleContainer:{
+  dayTitleContainer:{
     width: 350,
     height: 30,
     justifyContent:'flex-start',
@@ -132,10 +135,8 @@ const styles = StyleSheet.create({
   houseworkContainer:{
     width: 300,
     height: 300,
-    borderColor: '#d2d2d2',
-    borderWidth: 1,
     borderRadius: 10,
-    marginTop:10,
+    marginTop:15,
     backgroundColor:'white',
     justifyContent:'space-around',
     alignItems:'center',
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
   },
-  titleContainer:{
+  houseworkTitleContainer:{
     width: 290,
     height: 30,
     justifyContent:'flex-start',
@@ -154,37 +155,41 @@ const styles = StyleSheet.create({
     paddingLeft:10,
   },
   timerContainer:{
-    width: 300,
-    height: 200,
-    borderColor: '#d2d2d2',
-    borderWidth: 1,
+    width: 330,
+    height: 230,
     borderRadius: 10,
-    marginTop:10,
-    backgroundColor:'white',
+    marginTop:15,
+    backgroundColor:'#E6FBFF',
     justifyContent:'center',
     flexDirection:'column',
     alignItems:'center',
-    shadowColor: '#000',  // 影の色
+    shadowColor: 'black',  // 影の色
     shadowOffset: { width: 0, height: 2 },  // 影の位置
     shadowOpacity: 0.3,  // 影の透明度
     shadowRadius: 4,  // 影のぼかしの半径
     elevation: 5,  // Android用
   },
-  counterContainer: {
-    width: 300,
-    height: 100,
+  timerTitleContainer:{
+    width: 290,
+    height: 30,
+    justifyContent:'flex-start',
+    alignItems:'center',
+    flexDirection:'row',
+    paddingLeft:10,
+  },
+  timerDisplayContainer: {
+    width: 280,
+    height: 80,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor:'white',
     flexDirection:'row',
 
   },
   buttonContainer: {
-    width: 300,
+    width: 280,
     height: 80,
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor:'white',
     flexDirection:'row',
 
   },
