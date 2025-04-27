@@ -1,9 +1,12 @@
 import React, { useState ,useEffect} from 'react';
 import { StyleSheet, View,Text,SafeAreaView,TextInput} from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabTwoScreen() {
 
   const [text, setText] = useState('');
+  const [category, setCategory] = useState(null);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -13,18 +16,30 @@ export default function TabTwoScreen() {
           <Text style={styles.label}>家事名</Text>
           <TextInput
             style={styles.textBox}
-            placeholder="例：リビング"
+            placeholder="例:リビング"
             value={text}
             onChangeText={setText}
           />
         </View> 
         <View style={styles.itemBox}>
           <Text style={styles.label}>カテゴリー</Text>
-          <TextInput
-            style={styles.textBox}
-            placeholder="家事名を入力"
-            value={text}
-            onChangeText={setText}
+          <RNPickerSelect
+            onValueChange={(value) => setCategory(value)}
+            Icon={() => (
+              <MaterialCommunityIcons 
+              name="chevron-down" size={35} color="gray" style={styles.icon}
+              />
+            )}
+            items={[
+              { label: '掃除', value: '掃除' },
+              { label: '洗濯', value: '洗濯' },
+              { label: 'ゴミ出し', value: 'ゴミ出し' },
+            ]}
+            placeholder={{ label: 'カテゴリーを選んでください', value: "" }}
+            style={{
+              inputIOS:styles.categoryInput,
+              inputAndroid:styles.categoryInput,
+            }}
           />
         </View>
         <View style={styles.itemBox}>
@@ -84,7 +99,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
     marginVertical:5,
   },
 
@@ -93,6 +107,19 @@ const styles = StyleSheet.create({
     paddingHorizontal:10,
     justifyContent: 'flex-start',
     width: 320,
-    height: 80,
   },
+  categoryInput: {
+    width: 300,
+    height: 50,
+    borderColor: '#dddddd',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginVertical:5,  
+  },
+  icon: {
+    marginRight: 10,
+    marginTop:13,
+  } 
 });
