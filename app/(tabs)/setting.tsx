@@ -1,13 +1,34 @@
 import React, { useState ,useEffect} from 'react';
-import { StyleSheet, View,Text,SafeAreaView,TextInput,TouchableOpacity} from 'react-native';
+import { StyleSheet, View,Text,SafeAreaView,TextInput,TouchableOpacity,FlatList} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabTwoScreen() {
 
-  const [text, setText] = useState('');
-  const [category, setCategory] = useState(null);
-  const [week, setWeek] = useState(null);
+  const [text, setText] = useState(''); //入力した家事内容をステート
+  const [category, setCategory] = useState(null); //カテゴリー内容をステート
+  const [week, setWeek] = useState(null); //曜日内容をステート
+  const [houseworkList, setHouseworkList] = useState([]); // 家事リストを管理するステート
+
+  const handleAddTask = () => {
+    if (text && category && week) {
+      // 家事をリストに追加
+      setHouseworkList([...houseworkList, { text, category, week }]);
+      // 入力欄をリセット
+      setText('');
+      setCategory(null);
+      setWeek(null);
+    } else {
+      alert("すべての項目を入力してください！");
+    }
+  };
+
+  // リスト項目を表示するためのrenderItem
+  const renderItem = ({ item }) => (
+    <View style={styles.listItem}>
+      <Text style={styles.listText}>{item.text} - {item.category} - {item.week}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,12 +93,21 @@ export default function TabTwoScreen() {
             }}
           />
         </View> 
-        <TouchableOpacity style={styles.saveButton}>
+        <TouchableOpacity style={styles.saveButton} onPress={handleAddTask}>
           <Text style={styles.saveText}>保存</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.houseworkSettingContainer}>
-
+      <View style={styles.scheduleContainer}>
+        <Text style={styles.titleText}>掃除の予定</Text>
+        {houseworkList.length === 0 ? (
+            <Text style={styles.noTaskText}>予定がありません</Text>
+          ) : (
+            <FlatList
+              data={houseworkList}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()} // インデックスをキーとして使用
+            />
+          )}
       </View>
     </SafeAreaView>
   );
@@ -112,6 +142,24 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'white',
     justifyContent: 'space-around',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,  //影の濃さ
+    shadowRadius: 4,
+    elevation: 3,  //android用
+  },
+   scheduleContainer: {
+    width: 330,
+    height:220,
+    paddingTop:20,
+    paddingHorizontal:30,
+    borderWidth:1,
+    borderColor:'#EEEEEE',
+    borderRadius: 15,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -161,5 +209,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listItem: {
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 5,
+  },
+  listText: {
+    fontSize: 16,
+  },
+  noTaskText: {
+    fontSize: 18,
+    color: '#888',
+    paddingVertical:10,
+    bottom:30,
   },
 });
