@@ -27,9 +27,11 @@ export default function TabTwoScreen() {
           <RNPickerSelect
             onValueChange={(value) => setCategory(value)}
             Icon={() => (
-              <MaterialCommunityIcons 
-              name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
-              />
+              <View style={{width:300, alignItems: "flex-end"}}>
+                <MaterialCommunityIcons 
+                name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
+                />                
+              </View>
             )}
             items={[
               { label: '掃除', value: '掃除' },
@@ -48,9 +50,11 @@ export default function TabTwoScreen() {
           <RNPickerSelect
             onValueChange={(value) => setWeek(value)}
             Icon={() => (
-              <MaterialCommunityIcons 
-              name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
-              />
+              <View style={{width:300, alignItems: "flex-end"}}>
+                <MaterialCommunityIcons 
+                name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
+                />                
+              </View>
             )}
             items={[
               { label: '月曜日', value: '月曜日' },
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
     marginVertical:5,  
   },
   icon: {
-    marginRight: 10,
     marginTop:13,
+    width: 40,
   } 
 });
