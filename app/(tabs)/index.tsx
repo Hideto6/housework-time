@@ -1,38 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity,SafeAreaView  } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import TimerBox from '@/components/TimerBox';
+import HouseWorkTime from '@/components/HouseWorkTime';
 
 export default function HomeScreen() {
   // 今日の日付を取得
   const today = new Date();
   const dateString = today.toLocaleDateString();
-
-  const [seconds, setSeconds] = useState(10 * 60); // 初期設定 10分
-  const [isRunning, setIsRunning] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (isRunning && seconds > 0) {
-      interval = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-      }, 1000);
-    } else if (seconds === 0) {
-      clearInterval(interval);
-      setIsRunning(false); // タイマー終了時に停止
-    }
-    return () => clearInterval(interval);
-  }, [isRunning, seconds]);
-
-  // タイマーリセット
-  const resetTimer = () => {
-    setSeconds(10 * 60);
-    setIsRunning(false);
-  };
-
-  // 分と秒に変換
-  const minutes = Math.floor(seconds / 60);
-  const displaySeconds = seconds % 60;
-  const timeString = `${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,49 +22,12 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* 今日の家事タイム */}
-      <View style={styles.houseworkContainer}>
-        <View style={styles.houseworkTitleContainer}>
-          <MaterialCommunityIcons name="lightbulb-on" size={30} color="#FFDB10" />
-          <Text style={styles.titleText}> 今日の家事タイム</Text>
-        </View>
-        <View style={styles.placeContainer}>
-          <Text style={styles.houseworkText}>リビング　</Text>
-          <MaterialCommunityIcons name="vacuum" size={40} color="black" />
-        </View>
-        <View style={styles.nextHouseworkContainer}>
-          <Text style={styles.nextHomeworkText}>次回の家事タイム..</Text>
-        </View>
-      </View>
 
-      {/* タイマー */}
-      <View style={styles.timerContainer}>
-        <View style={styles.timerTitleContainer}>
-          <MaterialCommunityIcons name="timer-outline" size={24} color="black" />
-          <Text style={styles.titleText}> タイマー</Text>
-        </View>
-        <View style={styles.timerDisplayContainer}>
-          <Text style={styles.timerText}>{timeString}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.buttonStart}
-            onPress={() => setIsRunning((prev) => !prev)}
-          >
-            {isRunning ? (
-              <MaterialCommunityIcons name="pause" size={36} color="white" />
-            ) : (
-              <MaterialCommunityIcons name="play" size={36} color="white" />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonReset}
-            onPress={resetTimer}
-          >
-            <MaterialCommunityIcons name="autorenew" size={36} color="white" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      {/* 今日の家事タイム */}
+      <HouseWorkTime/>
+      
+      {/* タイマー*/}
+      <TimerBox/>
     </SafeAreaView>
   );
 }
@@ -222,7 +160,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
-  nextHomeworkText: {
+  nextHouseworkText: {
     fontSize: 15,
     fontFamily: 'Arial',
     color: 'black',
