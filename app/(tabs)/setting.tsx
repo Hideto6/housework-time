@@ -7,6 +7,7 @@ export default function TabTwoScreen() {
 
   const [text, setText] = useState('');
   const [category, setCategory] = useState(null);
+  const [week, setWeek] = useState(null);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,11 +45,27 @@ export default function TabTwoScreen() {
         </View>
         <View style={styles.itemBox}>
           <Text style={styles.label}>曜日</Text>
-          <TextInput
-            style={styles.textBox}
-            placeholder="家事名を入力"
-            value={text}
-            onChangeText={setText}
+          <RNPickerSelect
+            onValueChange={(value) => setWeek(value)}
+            Icon={() => (
+              <MaterialCommunityIcons 
+              name="chevron-down" size={35} color="gray" style={styles.icon}
+              />
+            )}
+            items={[
+              { label: '月曜日', value: '月曜日' },
+              { label: '火曜日', value: '火曜日' },
+              { label: '水曜日', value: '水曜日' },
+              { label: '木曜日', value: '木曜日' },
+              { label: '金曜日', value: '金曜日' },
+              { label: '土曜日', value: '土曜日' },
+              { label: '日曜日', value: '日曜日' },
+            ]}
+            placeholder={{ label: '曜日を選んでください', value: "" }}
+            style={{
+              inputIOS:styles.categoryInput,
+              inputAndroid:styles.categoryInput,
+            }}
           />
         </View> 
       </View>
