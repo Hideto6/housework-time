@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text} from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import * as Location from 'expo-location';
 
 const DateBox = () => {
     const today = new Date();
@@ -10,14 +11,26 @@ const DateBox = () => {
     useEffect(() => {
       const fetchWeather = async () => {
         try {
-          const response = await fetch(
-            'https://api.openweathermap.org/data/2.5/weather?q=Kyoto&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja'
-          );
-          const data = await response.json();
-          console.log(data);
-          setWeather(data);
-        } catch (error) {
-          console.error(error);
+            //位置情報の許可をリクエスト
+            let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    console.log('Permission to access location was denied');
+                    return;
+                }
+
+            // 現在地を取得
+            let location = await Location.getCurrentPositionAsync({});
+            const { latitude, longitude } = location.coords;
+            console.log('位置情報:', latitude, longitude);
+
+            //APIで天気情報を取得   
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja`
+            );
+            const data = await response.json();
+            setWeather(data);
+            } catch (error) {
+            console.error(error);
         }
       };
       fetchWeather();
