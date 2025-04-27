@@ -5,6 +5,38 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 const DateBox = () => {
     const today = new Date();
     const dateString = today.toLocaleDateString();
+    const [weather, setWeather] = useState(null);
+
+    useEffect(() => {
+      const fetchWeather = async () => {
+        try {
+          const response = await fetch(
+            'https://api.openweathermap.org/data/2.5/weather?q=Kyoto&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja'
+          );
+          const data = await response.json();
+          console.log(data);
+          setWeather(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchWeather();
+    }, []);
+
+    const renderWeatherIcon = () => {
+        if (!weather) return null;
+
+        const weatherMain = weather.weather[0].main;
+        if (weatherMain === 'Clear') {
+            return <MaterialCommunityIcons name="weather-sunny" size={32} color="#FFD700" />;
+        } else if (weatherMain === 'Clouds') {
+            return <MaterialCommunityIcons name="weather-cloudy" size={32} color="#A9A9A9" />;
+        } else if (weatherMain === 'Rain') {
+            return <MaterialCommunityIcons name="weather-rainy" size={32} color="#1E90FF" />;
+        } else {
+            return <MaterialCommunityIcons name="weather-partly-cloudy" size={32} color="#A9A9A9" />; // その他
+        }
+    };
 
   return (
     <View style={styles.dayContainer}>
@@ -14,6 +46,9 @@ const DateBox = () => {
         </View>
         <View style={styles.currentTimeContainer}>
           <Text style={styles.dateText}>{dateString}</Text>
+          <View>
+                    {renderWeatherIcon()}
+            </View>
         </View>
       </View>
   );

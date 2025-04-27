@@ -8,6 +8,24 @@ export default function TabTwoScreen() {
   const [text, setText] = useState('');
   const [category, setCategory] = useState(null);
   const [week, setWeek] = useState(null);
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const response = await fetch(
+          'https://api.openweathermap.org/data/2.5/weather?q=Shiga&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja'
+        );
+        const data = await response.json();
+        console.log(data);
+        setWeather(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchWeather();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,6 +91,10 @@ export default function TabTwoScreen() {
           />
         </View> 
       </View>
+      <View style={styles.houseworkSettingContainer}>
+
+
+      </View>
     </SafeAreaView>
   );
 }
@@ -92,12 +114,29 @@ const styles = StyleSheet.create({
   },
   houseworkSettingContainer: {
     width: 330,
-    paddingVertical: 30,
+    paddingVertical: 20,
     paddingHorizontal:30,
     borderWidth:1,
     borderColor:'#EEEEEE',
     borderRadius: 15,
-    marginVertical: 20,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,  //影の濃さ
+    shadowRadius: 4,
+    elevation: 3,  //android用
+  },
+  listContainer: {
+    width: 330,
+    paddingVertical: 20,
+    paddingHorizontal:30,
+    borderWidth:1,
+    borderColor:'#EEEEEE',
+    borderRadius: 15,
+    marginVertical: 10,
     backgroundColor: 'white',
     justifyContent: 'space-around',
     alignItems: 'center',
