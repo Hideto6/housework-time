@@ -28,7 +28,7 @@ export default function TabTwoScreen() {
             onValueChange={(value) => setCategory(value)}
             Icon={() => (
               <MaterialCommunityIcons 
-              name="chevron-down" size={35} color="gray" style={styles.icon}
+              name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
               />
             )}
             items={[
@@ -49,7 +49,7 @@ export default function TabTwoScreen() {
             onValueChange={(value) => setWeek(value)}
             Icon={() => (
               <MaterialCommunityIcons 
-              name="chevron-down" size={35} color="gray" style={styles.icon}
+              name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
               />
             )}
             items={[
