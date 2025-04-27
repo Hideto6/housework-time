@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import { StyleSheet, View,Text,SafeAreaView,TextInput} from 'react-native';
+import { StyleSheet, View,Text,SafeAreaView,TextInput,TouchableOpacity} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -8,24 +8,6 @@ export default function TabTwoScreen() {
   const [text, setText] = useState('');
   const [category, setCategory] = useState(null);
   const [week, setWeek] = useState(null);
-  const [weather, setWeather] = useState(null);
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        const response = await fetch(
-          'https://api.openweathermap.org/data/2.5/weather?q=Shiga&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja'
-        );
-        const data = await response.json();
-        console.log(data);
-        setWeather(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchWeather();
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,9 +72,11 @@ export default function TabTwoScreen() {
             }}
           />
         </View> 
+        <TouchableOpacity style={styles.saveButton}>
+          <Text style={styles.saveText}>保存</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.houseworkSettingContainer}>
-
 
       </View>
     </SafeAreaView>
@@ -112,24 +96,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
   },
-  houseworkSettingContainer: {
-    width: 330,
-    paddingVertical: 20,
-    paddingHorizontal:30,
-    borderWidth:1,
-    borderColor:'#EEEEEE',
-    borderRadius: 15,
-    marginVertical: 10,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,  //影の濃さ
-    shadowRadius: 4,
-    elevation: 3,  //android用
+  saveText: {
+    fontFamily: 'Arial',
+    fontSize: 16,
+    color:'white',
+    fontWeight:'bold',
   },
-  listContainer: {
+  houseworkSettingContainer: {
     width: 330,
     paddingVertical: 20,
     paddingHorizontal:30,
@@ -161,9 +134,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical:5,
   },
-
   itemBox: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal:10,
     justifyContent: 'flex-start',
     width: 320,
@@ -181,5 +153,13 @@ const styles = StyleSheet.create({
   icon: {
     marginTop:13,
     width: 40,
-  } 
+  } ,
+  saveButton: {
+    width: 80,
+    height: 40,
+    backgroundColor: '#40B2FF',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
