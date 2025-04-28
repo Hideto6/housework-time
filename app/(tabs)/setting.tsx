@@ -1,20 +1,38 @@
-import React, { useState ,useEffect} from 'react';
-import { StyleSheet, View,Text,SafeAreaView,TextInput,TouchableOpacity,FlatList} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabTwoScreen() {
-
-  const [text, setText] = useState(''); //入力した家事内容をステート
-  const [category, setCategory] = useState(null); //カテゴリー内容をステート
-  const [week, setWeek] = useState(null); //曜日内容をステート
+  const [text, setText] = useState(''); // 入力した家事内容をステート
+  const [category, setCategory] = useState(null); // カテゴリー内容をステート
+  const [week, setWeek] = useState(null); // 曜日内容をステート
   const [houseworkList, setHouseworkList] = useState([]); // 家事リストを管理するステート
+
+  // カテゴリーに対応するアイコン
+  const categoryIcons = {
+    '掃除': 'vacuum',
+    '洗濯': 'tshirt-crew',
+    'ゴミ出し': 'trash-can',
+  };
+
+  // 曜日を短縮表示
+  const shortWeekday = (day) => {
+    const map = {
+      '月曜日': '月',
+      '火曜日': '火',
+      '水曜日': '水',
+      '木曜日': '木',
+      '金曜日': '金',
+      '土曜日': '土',
+      '日曜日': '日',
+    };
+    return map[day] || day;
+  };
 
   const handleAddTask = () => {
     if (text && category && week) {
-      // 家事をリストに追加
       setHouseworkList([...houseworkList, { text, category, week }]);
-      // 入力欄をリセット
       setText('');
       setCategory(null);
       setWeek(null);
@@ -26,7 +44,15 @@ export default function TabTwoScreen() {
   // リスト項目を表示するためのrenderItem
   const renderItem = ({ item }) => (
     <View style={styles.listItem}>
-      <Text style={styles.listText}>{item.text} - {item.category} - {item.week}</Text>
+      <MaterialCommunityIcons
+        name={categoryIcons[item.category] || 'calendar'}
+        size={30}
+        color="#40B2FF"
+        style={{ marginRight: 10 }}
+      />
+      <Text style={styles.listText}>
+        {item.text}（{shortWeekday(item.week)}）
+      </Text>
     </View>
   );
 
@@ -42,16 +68,19 @@ export default function TabTwoScreen() {
             value={text}
             onChangeText={setText}
           />
-        </View> 
+        </View>
         <View style={styles.itemBox}>
           <Text style={styles.label}>カテゴリー</Text>
           <RNPickerSelect
             onValueChange={(value) => setCategory(value)}
             Icon={() => (
-              <View style={{width:300, alignItems: "flex-end"}}>
-                <MaterialCommunityIcons 
-                name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
-                />                
+              <View style={{ width: 300, alignItems: "flex-end" }}>
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={35}
+                  color="#b4b4b4"
+                  style={styles.icon}
+                />
               </View>
             )}
             items={[
@@ -61,8 +90,8 @@ export default function TabTwoScreen() {
             ]}
             placeholder={{ label: 'カテゴリーを選んでください', value: "" }}
             style={{
-              inputIOS:styles.categoryInput,
-              inputAndroid:styles.categoryInput,
+              inputIOS: styles.categoryInput,
+              inputAndroid: styles.categoryInput,
             }}
           />
         </View>
@@ -71,15 +100,18 @@ export default function TabTwoScreen() {
           <RNPickerSelect
             onValueChange={(value) => setWeek(value)}
             Icon={() => (
-              <View style={{width:300, alignItems: "flex-end"}}>
-                <MaterialCommunityIcons 
-                name="chevron-down" size={35} color="#b4b4b4" style={styles.icon}
-                />                
+              <View style={{ width: 300, alignItems: "flex-end" }}>
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={35}
+                  color="#b4b4b4"
+                  style={styles.icon}
+                />
               </View>
             )}
             items={[
               { label: '月曜日', value: '月曜日' },
-              { label: '火曜日', value: '火' },
+              { label: '火曜日', value: '火曜日' },
               { label: '水曜日', value: '水曜日' },
               { label: '木曜日', value: '木曜日' },
               { label: '金曜日', value: '金曜日' },
@@ -88,28 +120,30 @@ export default function TabTwoScreen() {
             ]}
             placeholder={{ label: '曜日を選んでください', value: "" }}
             style={{
-              inputIOS:styles.categoryInput,
-              inputAndroid:styles.categoryInput,
+              inputIOS: styles.categoryInput,
+              inputAndroid: styles.categoryInput,
             }}
           />
-        </View> 
+        </View>
         <TouchableOpacity style={styles.saveButton} onPress={handleAddTask}>
           <Text style={styles.saveText}>保存</Text>
         </TouchableOpacity>
       </View>
+
       <View style={styles.scheduleContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>掃除の予定</Text>
-        </View>    
+          <Text style={styles.titleText}>家事の予定</Text>
+        </View>
         {houseworkList.length === 0 ? (
-            <Text style={styles.noTaskText}>予定がありません</Text>
-          ) : (
-            <FlatList
-              data={houseworkList}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()} // インデックスをキーとして使用
-            />
-          )}
+          <Text style={styles.noTaskText}>予定がありません</Text>
+        ) : (
+          <FlatList
+            data={houseworkList}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()} // インデックスをキーとして使用
+            contentContainerStyle={{ paddingTop: 20 }}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -131,15 +165,15 @@ const styles = StyleSheet.create({
   saveText: {
     fontFamily: 'Arial',
     fontSize: 16,
-    color:'white',
-    fontWeight:'bold',
+    color: 'white',
+    fontWeight: 'bold',
   },
   houseworkSettingContainer: {
     width: 330,
     paddingVertical: 20,
-    paddingHorizontal:30,
-    borderWidth:1,
-    borderColor:'#EEEEEE',
+    paddingHorizontal: 30,
+    borderWidth: 1,
+    borderColor: '#EEEEEE',
     borderRadius: 15,
     marginVertical: 10,
     backgroundColor: 'white',
@@ -147,16 +181,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,  //影の濃さ
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,  //android用
+    elevation: 3,
   },
-   scheduleContainer: {
+  scheduleContainer: {
     width: 330,
-    paddingTop:20,
-    paddingHorizontal:30,
-    borderWidth:1,
-    borderColor:'#EEEEEE',
+    paddingTop: 20,
+    paddingHorizontal: 30,
+    borderWidth: 1,
+    borderColor: '#EEEEEE',
     borderRadius: 15,
     marginVertical: 10,
     backgroundColor: 'white',
@@ -164,15 +198,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,  //影の濃さ
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,  //android用
+    elevation: 3,
   },
-  titleText:{
+  titleText: {
     fontSize: 20,
     fontFamily: 'Arial',
     fontWeight: 'bold',
-    textAlign:'center',
+    textAlign: 'center',
   },
   textBox: {
     width: 300,
@@ -182,11 +216,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     fontSize: 16,
-    marginVertical:5,
+    marginVertical: 5,
   },
   itemBox: {
     paddingVertical: 10,
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     justifyContent: 'flex-start',
     width: 320,
   },
@@ -198,7 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     fontSize: 16,
-    marginVertical:5,  
+    marginVertical: 5,
   },
   titleContainer: {
     width: 300,
@@ -207,9 +241,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   icon: {
-    marginTop:13,
+    marginTop: 13,
     width: 40,
-  } ,
+  },
   saveButton: {
     width: 80,
     height: 40,
@@ -219,20 +253,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listItem: {
-    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E6F0FF',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     marginVertical: 5,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   listText: {
-    fontSize: 16,
+    fontSize: 18,
+    color: '#333',
+    fontWeight: 'bold',
   },
   noTaskText: {
     fontSize: 18,
     color: '#888',
-    paddingVertical:10,
-    marginTop:60,
-    marginBottom:80,
-    textAlign:'center',
+    paddingVertical: 10,
+    marginTop: 60,
+    marginBottom: 80,
+    textAlign: 'center',
   },
 });
