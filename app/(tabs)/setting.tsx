@@ -42,7 +42,7 @@ export default function TabTwoScreen() {
   };
 
   // リスト項目を表示するためのrenderItem
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item, index }) => (
     <View style={styles.listItem}>
       <MaterialCommunityIcons
         name={categoryIcons[item.category] || 'calendar'}
@@ -53,8 +53,17 @@ export default function TabTwoScreen() {
       <Text style={styles.listText}>
         {item.text}（{shortWeekday(item.week)}）
       </Text>
+      <TouchableOpacity onPress={() => handleDeleteTask(index)}>
+        <MaterialCommunityIcons name="close-box" size={30} color="red" style={styles.deleteIcon}/>
+      </TouchableOpacity>
     </View>
   );
+
+  // アイテムを削除する関数
+  const handleDeleteTask = (index) => {
+    const newHouseworkList = houseworkList.filter((_, i) => i !== index);
+    setHouseworkList(newHouseworkList);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,6 +81,7 @@ export default function TabTwoScreen() {
         <View style={styles.itemBox}>
           <Text style={styles.label}>カテゴリー</Text>
           <RNPickerSelect
+            value={category}
             onValueChange={(value) => setCategory(value)}
             Icon={() => (
               <View style={{ width: 300, alignItems: "flex-end" }}>
@@ -98,6 +108,7 @@ export default function TabTwoScreen() {
         <View style={styles.itemBox}>
           <Text style={styles.label}>曜日</Text>
           <RNPickerSelect
+            value={week}
             onValueChange={(value) => setWeek(value)}
             Icon={() => (
               <View style={{ width: 300, alignItems: "flex-end" }}>
@@ -187,6 +198,7 @@ const styles = StyleSheet.create({
   },
   scheduleContainer: {
     width: 330,
+    height:243,
     paddingTop: 20,
     paddingHorizontal: 30,
     borderWidth: 1,
@@ -256,6 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#E6F0FF',
+    justifyContent: 'space-between',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -267,9 +280,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   listText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#333',
     fontWeight: 'bold',
+  },
+  deleteIcon: {
+    marginLeft: 15,
   },
   noTaskText: {
     fontSize: 18,
