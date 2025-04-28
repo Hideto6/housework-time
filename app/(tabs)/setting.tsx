@@ -30,6 +30,17 @@ export default function TabTwoScreen() {
     return map[day] || day;
   };
 
+  // 曜日ごとの色
+const weekColors = {
+  '月曜日': '#FDBDFF',
+  '火曜日': '#FFC38B', 
+  '水曜日': '#79B1FF', 
+  '木曜日': '#8BFF93', 
+  '金曜日': '#F7FF8B', 
+  '土曜日': '#8B95FF', 
+  '日曜日': '#FF7979', 
+};
+  //家事の設定
   const handleAddTask = () => {
     if (text && category && week) {
       setHouseworkList([...houseworkList, { text, category, week }]);
@@ -45,11 +56,11 @@ export default function TabTwoScreen() {
   const renderItem = ({ item, index }) => {
     const displayText = item.text.length > 6 ? item.text.slice(0, 6) + '...' : item.text;
     return(
-    <View style={styles.listItem}>
+    <View style={[styles.listItem, { backgroundColor: weekColors[item.week] || '#E6F0FF' }]}>
       <MaterialCommunityIcons
-        name={categoryIcons[item.category] || 'calendar'}
+        name={categoryIcons[item.category] || 'progress-question'}
         size={30}
-        color="#40B2FF"
+        color="#6C6C6C"
         style={{ marginRight: 10 }}
       />
       <Text style={styles.listText}>
