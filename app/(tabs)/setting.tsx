@@ -79,7 +79,7 @@ export default function TabTwoScreen() {
             )}
             items={[
               { label: '月曜日', value: '月曜日' },
-              { label: '火曜日', value: '火曜日' },
+              { label: '火曜日', value: '火' },
               { label: '水曜日', value: '水曜日' },
               { label: '木曜日', value: '木曜日' },
               { label: '金曜日', value: '金曜日' },
@@ -98,7 +98,9 @@ export default function TabTwoScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.scheduleContainer}>
-        <Text style={styles.titleText}>掃除の予定</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>掃除の予定</Text>
+        </View>    
         {houseworkList.length === 0 ? (
             <Text style={styles.noTaskText}>予定がありません</Text>
           ) : (
@@ -151,7 +153,6 @@ const styles = StyleSheet.create({
   },
    scheduleContainer: {
     width: 330,
-    height:220,
     paddingTop:20,
     paddingHorizontal:30,
     borderWidth:1,
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginVertical: 10,
     backgroundColor: 'white',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Arial',
     fontWeight: 'bold',
+    textAlign:'center',
   },
   textBox: {
     width: 300,
@@ -198,6 +200,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical:5,  
   },
+  titleContainer: {
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   icon: {
     marginTop:13,
     width: 40,
@@ -223,6 +231,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#888',
     paddingVertical:10,
-    bottom:30,
+    marginTop:60,
+    marginBottom:80,
+    textAlign:'center',
   },
 });
