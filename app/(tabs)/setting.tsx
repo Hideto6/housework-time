@@ -42,7 +42,9 @@ export default function TabTwoScreen() {
   };
 
   // リスト項目を表示するためのrenderItem
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({ item, index }) => {
+    const displayText = item.text.length > 6 ? item.text.slice(0, 6) + '...' : item.text;
+    return(
     <View style={styles.listItem}>
       <MaterialCommunityIcons
         name={categoryIcons[item.category] || 'calendar'}
@@ -51,13 +53,14 @@ export default function TabTwoScreen() {
         style={{ marginRight: 10 }}
       />
       <Text style={styles.listText}>
-        {item.text}（{shortWeekday(item.week)}）
+        {displayText}（{shortWeekday(item.week)}）
       </Text>
       <TouchableOpacity onPress={() => handleDeleteTask(index)}>
         <MaterialCommunityIcons name="close-box" size={30} color="red" style={styles.deleteIcon}/>
       </TouchableOpacity>
     </View>
   );
+} 
 
   // アイテムを削除する関数
   const handleDeleteTask = (index) => {
@@ -265,6 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listItem: {
+    width:260,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#E6F0FF',
