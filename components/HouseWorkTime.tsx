@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text,ScrollView } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useHousework } from '@/hooks/useHouseworkContext';
 
@@ -35,14 +35,14 @@ const HouseWorkTime = () => {
             <Text style={styles.houseworkText}>{task.text}　</Text>
             <MaterialCommunityIcons
               name={categoryIcons[task.category] || 'checkbox-blank-circle-outline'}
-              size={40}
+              size={35}
               color="black"
             />
           </View>
         ))
       ) : (
         <View style={styles.placeContainer}>
-          <Text style={styles.houseworkText}>今日は家事がありません！</Text>
+          <Text style={styles.noHouseworkText}>今日は家事がありません！</Text>
         </View>
       )}
 
@@ -54,7 +54,6 @@ const HouseWorkTime = () => {
 };
 
 export default HouseWorkTime;
-
 
 const styles = StyleSheet.create({
     dayContainer: {
@@ -75,11 +74,12 @@ const styles = StyleSheet.create({
     },
     houseworkContainer: {
       width: 330,
+      height:280,
       paddingVertical: 20,
       borderRadius: 15,
       marginVertical: 10,
       backgroundColor: 'white',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       alignItems: 'center',
       shadowColor: 'black',
       shadowOffset: { width: 0, height: 2 },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     placeContainer: {
       width: 280,
-      height: 150,
+      height:35,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'row',
@@ -116,6 +116,12 @@ const styles = StyleSheet.create({
       },
       houseworkText: {
         fontSize: 30,
+        fontFamily: 'Arial',
+        color: 'black',
+        fontWeight: 'bold',
+      },
+      noHouseworkText: {
+        fontSize: 23,
         fontFamily: 'Arial',
         color: 'black',
         fontWeight: 'bold',
