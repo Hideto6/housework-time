@@ -22,6 +22,23 @@ const HouseWorkTime = () => {
   // 今日の曜日に該当する家事だけを抽出
   const todayTasks = houseworkList.filter((item) => item.week === today);
 
+//曜日の順番定義
+const weekOrder = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
+const todayIndex = weekOrder.indexOf(today);
+
+//次回の曜日を探す
+const getNextTaskDay = () => {
+    for (let i = 1; i <= 7; i++) {
+      const nextDay = weekOrder[(todayIndex + i) % 7];
+      const hasTask = houseworkList.some((item) => item.week === nextDay);//some関数⇒一つでも一致したらtrueを返す
+      if (hasTask) return nextDay;
+    }
+    return null;
+  };
+  
+  const nextTaskDay = getNextTaskDay();
+  
+
   return (
     <View style={styles.houseworkContainer}>
       <View style={styles.houseworkTitleContainer}>
@@ -47,7 +64,12 @@ const HouseWorkTime = () => {
       )}
 
       <View style={styles.nextHouseworkContainer}>
-        <Text style={styles.nextHouseworkText}>次回の家事タイム..</Text>
+        <Text style={styles.nextTitleText}>次回の家事タイム..</Text>
+        <View style={styles.nextTask}>
+            <Text style={styles.nextTaskText}>
+                {nextTaskDay ? nextTaskDay : 'なし'}
+            </Text>
+        </View>
       </View>
     </View>
   );
@@ -107,7 +129,12 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-end',
       flexDirection: 'row',
+      marginRight:20,
     },
+    nextTask: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
     titleText: {
         fontSize: 22,
         fontFamily: 'Arial',
@@ -126,12 +153,18 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
       },
-      nextHouseworkText: {
+      nextTitleText: {
         fontSize: 15,
         fontFamily: 'Arial',
         color: 'black',
         fontWeight: 'bold',
-        paddingRight: 50,
+        marginRight:10,
+      },
+      nextTaskText: {
+        fontSize: 15,
+        fontFamily: 'Arial',
+        color: '#006AFF',
+        fontWeight: 'bold',
       },
   });
   
