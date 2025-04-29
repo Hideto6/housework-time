@@ -5,17 +5,18 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const TimerBox = () => {
     const [seconds, setSeconds] = useState(10 * 60); // 初期設定 10分
-    const [isRunning, setIsRunning] = useState(false);
+    const [isRunning, setIsRunning] = useState(false);//スタート、ストップの管理
   
     useEffect(() => {
       let interval: NodeJS.Timeout;
       if (isRunning && seconds > 0) {
         interval = setInterval(() => {
           setSeconds((prevSeconds) => prevSeconds - 1);
-        }, 1000);
+        }, 1000);         //setInterval(..., 1000)⇒1秒ごとにsecondsを1減らす関数
       } else if (seconds === 0) {
         clearInterval(interval);
         setIsRunning(false); // タイマー終了時に停止
+        alert("時間が終了しました！");
       }
       return () => clearInterval(interval);
     }, [isRunning, seconds]);
