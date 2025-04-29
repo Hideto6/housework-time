@@ -11,8 +11,8 @@ const getTodayJapaneseWeekday = () => {
 
 const categoryIcons = {
   掃除: 'vacuum',
-  洗濯: 'washing-machine',
-  ゴミ出し: 'delete',
+  洗濯: 'tshirt-crew',
+  ゴミ出し: 'trash-can',
 };
 
 const HouseWorkTime = () => {
@@ -53,7 +53,7 @@ const getNextTaskDay = () => {
             <MaterialCommunityIcons
               name={categoryIcons[task.category] || 'checkbox-blank-circle-outline'}
               size={35}
-              color="black"
+              color="#008CFF"
             />
           </View>
         ))
