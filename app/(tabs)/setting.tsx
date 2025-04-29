@@ -3,12 +3,13 @@ import { StyleSheet, View, Text, SafeAreaView, TextInput, TouchableOpacity, Flat
 import RNPickerSelect from 'react-native-picker-select';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import HouseworkItem from '@/components/HouseworkItem';
+import { useHousework } from '@/hooks/useHouseworkContext';
 
 export default function TabTwoScreen() {
   const [text, setText] = useState(''); // 入力した家事内容をステート
   const [category, setCategory] = useState(null); // カテゴリー内容をステート
   const [week, setWeek] = useState(null); // 曜日内容をステート
-  const [houseworkList, setHouseworkList] = useState([]); // 家事リストを管理するステート
+  const { houseworkList, setHouseworkList } = useHousework(); //コンテキストAPI
 
   //家事の設定
   const handleAddTask = () => {
