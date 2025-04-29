@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
         marginRight:10,
       },
       nextTaskText: {
-        fontSize: 15,
-        fontFamily: 'Arial',
+        fontSize: 17,
+       fontFamily: 'Arial',
         color: '#006AFF',
         fontWeight: 'bold',
       },
