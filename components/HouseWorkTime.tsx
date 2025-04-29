@@ -1,25 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity,SafeAreaView  } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useHousework } from '@/hooks/useHouseworkContext';
+
+const getTodayJapaneseWeekday = () => {
+  const days = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
+  const today = new Date();
+  return days[today.getDay()];
+};
+
+const categoryIcons = {
+  掃除: 'vacuum',
+  洗濯: 'washing-machine',
+  ゴミ出し: 'delete',
+};
 
 const HouseWorkTime = () => {
+  const { houseworkList } = useHousework();
+  const today = getTodayJapaneseWeekday();
+
+  // 今日の曜日に該当する家事だけを抽出
+  const todayTasks = houseworkList.filter((item) => item.week === today);
+
   return (
     <View style={styles.houseworkContainer}>
-    <View style={styles.houseworkTitleContainer}>
-      <MaterialCommunityIcons name="lightbulb-on" size={30} color="#FFDB10" />
-      <Text style={styles.titleText}> 今日の家事タイム</Text>
+      <View style={styles.houseworkTitleContainer}>
+        <MaterialCommunityIcons name="lightbulb-on" size={30} color="#FFDB10" />
+        <Text style={styles.titleText}> 今日の家事タイム</Text>
+      </View>
+
+      {todayTasks.length > 0 ? (
+        todayTasks.map((task, index) => (
+          <View style={styles.placeContainer} key={index}>
+            <Text style={styles.houseworkText}>{task.text}　</Text>
+            <MaterialCommunityIcons
+              name={categoryIcons[task.category] || 'checkbox-blank-circle-outline'}
+              size={40}
+              color="black"
+            />
+          </View>
+        ))
+      ) : (
+        <View style={styles.placeContainer}>
+          <Text style={styles.houseworkText}>今日は家事がありません！</Text>
+        </View>
+      )}
+
+      <View style={styles.nextHouseworkContainer}>
+        <Text style={styles.nextHouseworkText}>次回の家事タイム..</Text>
+      </View>
     </View>
-    <View style={styles.placeContainer}>
-      <Text style={styles.houseworkText}>リビング　</Text>
-      <MaterialCommunityIcons name="vacuum" size={40} color="black" />
-    </View>
-    <View style={styles.nextHouseworkContainer}>
-      <Text style={styles.nextHouseworkText}>次回の家事タイム..</Text>
-    </View>
-  </View>
   );
 };
+
 export default HouseWorkTime;
+
 
 const styles = StyleSheet.create({
     dayContainer: {
