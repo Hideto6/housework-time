@@ -53,7 +53,7 @@ const getNextTaskDay = () => {
             <MaterialCommunityIcons
               name={categoryIcons[task.category] || 'checkbox-blank-circle-outline'}
               size={35}
-              color="#008CFF"
+              color="#090082"
             />
           </View>
         ))
