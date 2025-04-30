@@ -42,7 +42,7 @@ export default function HouseworkItem({ item, onDelete }) {
       <MaterialCommunityIcons
         name={categoryIcons[item.category] || 'progress-question'}
         size={30}
-        color="#6C6C6C"
+        color="#090082"
         style={{ marginRight: 10 }}
       />
       <Text style={styles.listText}>
