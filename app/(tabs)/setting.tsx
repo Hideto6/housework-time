@@ -38,81 +38,83 @@ export default function TabTwoScreen() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  
       <SafeAreaView style={styles.container}>
-        <View style={styles.houseworkSettingContainer}>
-          <Text style={styles.titleText}>家事の設定</Text>
-          <View style={styles.itemBox}>
-            <Text style={styles.label}>家事名</Text>
-            <TextInput
-              style={styles.textBox}
-              placeholder="例:リビング"
-              value={text}
-              onChangeText={setText}
-            />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.houseworkSettingContainer}>
+            <Text style={styles.titleText}>家事の設定</Text>
+            <View style={styles.itemBox}>
+              <Text style={styles.label}>家事名</Text>
+              <TextInput
+                style={styles.textBox}
+                placeholder="例:リビング"
+                value={text}
+                onChangeText={setText}
+              />
+            </View>
+            <View style={styles.itemBox}>
+              <Text style={styles.label}>カテゴリー</Text>
+              <RNPickerSelect
+                value={category}
+                onValueChange={(value) => setCategory(value)}
+                Icon={() => (
+                  <View style={{ width: 300, alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="chevron-down"
+                      size={35}
+                      color="#b4b4b4"
+                      style={styles.icon}
+                    />
+                  </View>
+                )}
+                items={[
+                  { label: '掃除', value: '掃除' },
+                  { label: '洗濯', value: '洗濯' },
+                  { label: 'ゴミ出し', value: 'ゴミ出し' },
+                ]}
+                placeholder={{ label: 'カテゴリーを選んでください', value: "" }}
+                style={{
+                  inputIOS: styles.categoryInput,
+                  inputAndroid: styles.categoryInput,
+                }}
+              />
+            </View>
+            <View style={styles.itemBox}>
+              <Text style={styles.label}>曜日</Text>
+              <RNPickerSelect
+                value={week}
+                onValueChange={(value) => setWeek(value)}
+                Icon={() => (
+                  <View style={{ width: 300, alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="chevron-down"
+                      size={35}
+                      color="#b4b4b4"
+                      style={styles.icon}
+                    />
+                  </View>
+                )}
+                items={[
+                  { label: '月曜日', value: '月曜日' },
+                  { label: '火曜日', value: '火曜日' },
+                  { label: '水曜日', value: '水曜日' },
+                  { label: '木曜日', value: '木曜日' },
+                  { label: '金曜日', value: '金曜日' },
+                  { label: '土曜日', value: '土曜日' },
+                  { label: '日曜日', value: '日曜日' },
+                ]}
+                placeholder={{ label: '曜日を選んでください', value: "" }}
+                style={{
+                  inputIOS: styles.categoryInput,
+                  inputAndroid: styles.categoryInput,
+                }}
+              />
+            </View>
+            <TouchableOpacity style={styles.saveButton} onPress={handleAddTask}>
+              <Text style={styles.saveText}>保存</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.itemBox}>
-            <Text style={styles.label}>カテゴリー</Text>
-            <RNPickerSelect
-              value={category}
-              onValueChange={(value) => setCategory(value)}
-              Icon={() => (
-                <View style={{ width: 300, alignItems: "flex-end" }}>
-                  <MaterialCommunityIcons
-                    name="chevron-down"
-                    size={35}
-                    color="#b4b4b4"
-                    style={styles.icon}
-                  />
-                </View>
-              )}
-              items={[
-                { label: '掃除', value: '掃除' },
-                { label: '洗濯', value: '洗濯' },
-                { label: 'ゴミ出し', value: 'ゴミ出し' },
-              ]}
-              placeholder={{ label: 'カテゴリーを選んでください', value: "" }}
-              style={{
-                inputIOS: styles.categoryInput,
-                inputAndroid: styles.categoryInput,
-              }}
-            />
-          </View>
-          <View style={styles.itemBox}>
-            <Text style={styles.label}>曜日</Text>
-            <RNPickerSelect
-              value={week}
-              onValueChange={(value) => setWeek(value)}
-              Icon={() => (
-                <View style={{ width: 300, alignItems: "flex-end" }}>
-                  <MaterialCommunityIcons
-                    name="chevron-down"
-                    size={35}
-                    color="#b4b4b4"
-                    style={styles.icon}
-                  />
-                </View>
-              )}
-              items={[
-                { label: '月曜日', value: '月曜日' },
-                { label: '火曜日', value: '火曜日' },
-                { label: '水曜日', value: '水曜日' },
-                { label: '木曜日', value: '木曜日' },
-                { label: '金曜日', value: '金曜日' },
-                { label: '土曜日', value: '土曜日' },
-                { label: '日曜日', value: '日曜日' },
-              ]}
-              placeholder={{ label: '曜日を選んでください', value: "" }}
-              style={{
-                inputIOS: styles.categoryInput,
-                inputAndroid: styles.categoryInput,
-              }}
-            />
-          </View>
-          <TouchableOpacity style={styles.saveButton} onPress={handleAddTask}>
-            <Text style={styles.saveText}>保存</Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableWithoutFeedback>
 
         <View style={styles.scheduleContainer}>
           <View style={styles.titleContainer}>
@@ -137,11 +139,11 @@ export default function TabTwoScreen() {
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()} // インデックスをキーとして使用
               contentContainerStyle={{ paddingTop: 20 }}
+              style={{ flexGrow: 1 }}
             />
           )}
         </View>
       </SafeAreaView>
-    </TouchableWithoutFeedback>
   );
 }
 
