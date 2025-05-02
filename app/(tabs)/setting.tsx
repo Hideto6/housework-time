@@ -4,6 +4,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import HouseworkItem from '@/components/HouseworkItem';
 import { useHousework } from '@/hooks/useHouseworkContext';
+import uuid from 'react-native-uuid';
 
 export default function TabTwoScreen() {
   const [text, setText] = useState(''); // 入力した家事内容をステート
@@ -14,7 +15,7 @@ export default function TabTwoScreen() {
   //家事の設定
   const handleAddTask = () => {
     if (text && category && week) {
-      setHouseworkList([...houseworkList, { text, category, week }]);
+      setHouseworkList([...houseworkList, { id: uuid.v4() ,text, category, week }]);//idでタスクを管理
       setText('');
       setCategory(null);
       setWeek(null);
@@ -24,16 +25,16 @@ export default function TabTwoScreen() {
   };
 
   // リスト項目を表示するためのrenderItem
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item}) => (
     <HouseworkItem
       item={item}
-      onDelete={() => handleDeleteTask(index)}
+      onDelete={() => handleDeleteTask(item.id)}
     />
   );
 
   // アイテムを削除する関数
-  const handleDeleteTask = (index) => {
-    const newHouseworkList = houseworkList.filter((_, i) => i !== index);
+  const handleDeleteTask = (id) => {
+    const newHouseworkList = houseworkList.filter((item) => item.id !== id);
     setHouseworkList(newHouseworkList);
   };
 
@@ -137,9 +138,8 @@ export default function TabTwoScreen() {
                 return weekOrder[a.week] - weekOrder[b.week];
               })}
               renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()} // インデックスをキーとして使用
+              keyExtractor={(item) => item.id.toString()} // インデックスをキーとして使用
               contentContainerStyle={{ paddingTop: 20 }}
-              style={{ flexGrow: 1 }}
             />
           )}
         </View>

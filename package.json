@@ -44,8 +44,10 @@
     "react-native-screens": "~4.10.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-textinput-effects": "^0.6.3",
+    "react-native-uuid": "^2.0.3",
     "react-native-web": "^0.20.0",
-    "react-native-webview": "13.13.5"
+    "react-native-webview": "13.13.5",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
