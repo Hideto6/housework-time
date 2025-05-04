@@ -13,10 +13,11 @@
 - React Navigation（タブナビゲーション）
 - @expo/vector-icons（アイコン表示）
 - react-native-picker-select（ドロップダウン選択）
-### 状態管理・React構文
-- React Hooks（useState, useEffect）
+### 状態管理
 - React Context API（グローバル状態の共有）
+### React構文
 - props（親子コンポーネント間のデータ受け渡し）
+- React Hooks（useState, useEffect）
 ### 外部連携・API
 - OpenWeatherMap API（天気取得）
 - expo-location(端末の現在地の取得)
