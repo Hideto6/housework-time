@@ -3,7 +3,7 @@
 「家事管理アプリ」 – 家事の予定を簡単に管理するモバイルアプリ
 
 # 2.概要
-家事のスケジュール管理が煩雑になりがちな家庭だけでなく、一人暮らしで部屋の管理をつい忘れてしまいがちな人にも向けて、シンプルかつ見やすいUIで家事の予定を手軽に管理できるアプリを作成した。
+　家事のスケジュール管理が煩雑になりがちな家庭だけでなく、一人暮らしで部屋の管理をつい忘れてしまいがちな人にも向けて、シンプルかつ見やすいUIで家事の予定を手軽に管理できるアプリを作成した。
 React Native を使用し、iOS・Android 両方で動作するクロスプラットフォームのモバイルアプリとして開発した。
 開発期間は約2週間で、主に夜間や週末に個人で取り組みました。
 
@@ -36,21 +36,19 @@ React Native を使用し、iOS・Android 両方で動作するクロスプラ�
 - 曜日ごとに色分けされたリスト
 - 非同期ストレージを用いたリストの状態管理
 
-# 5.工夫した点、課題の解決方法
+# 5.工夫した点、課題解決
 
-### uuidの導入による、FlatListの安定性の向上
+### [uuidの導入による、FlatListの安定性の向上]
 #### 背景・課題
-家事管理アプリのタスク一覧を表示する際、FlatListコンポーネントを用いてリストをレンダリングした。当初、リストのkeyにindexを使用していたため、スクロール中にタスクを削除すると意図しない別のタスクが削除されるバグが発生した。
+　家事管理アプリのタスク一覧を表示する際、FlatListコンポーネントを用いてリストをレンダリングした。当初、リストのkeyにindexを使用していたため、スクロール中にタスクを削除すると意図しない別のタスクが削除されるバグが発生した。
 #### 解決策
-各タスクにランダムな一意のID（UUID）を付与し、以下のようにリストの識別子として使用しました。
+　各タスクにランダムな一意のID（UUID）を付与し、以下のようにリストの識別子として使用しました。
 
 ```
 import uuid from 'react-native-uuid';
 
 setHouseworkList([...houseworkList, { id: uuid.v4() ,text, category, week }]);
-
 ```
-
 ```
 <FlatList
    data={[...houseworkList].sort((a, b) => {
@@ -69,14 +67,102 @@ setHouseworkList([...houseworkList, { id: uuid.v4() ,text, category, week }]);
       keyExtractor={(item) => item.id.toString()} 
       contentContainerStyle={{ paddingTop: 20 }}
 />
-
 ```
 
 また、削除操作でも index ではなく id を基準にすることで、誤削除のリスクをなくした。
 
 #### 成果
-スクロール中でも安定して正しいタスクが削除されるようになった。
+　スクロール中でも安定して正しいタスクが削除されるようになった。
 
+### [Context APIとAsyncStorageを用いた状態管理の改善]
+#### 背景・課題
+　当初は家事リスト（houseworkList）の状態を useState により個別画面ごとに管理しており、他の画面とデータを共有することができなかった。そのため、設定画面で保存された家事リストをホーム画面に表示されず、リストの連携ができないといった問題があった。
+#### 解決策
+　ReactのContext APIを導入し、状態をアプリ全体で共有可能な構成に変更した。加えて、非同期ストレージであるAsyncStorageを組み合わせることで、ユーザーが追加・削除した家事データを永続化し、アプリの再起動後も状態を維持できるようにした。
+
+```
+//Context APIの要点コード
+
+const HouseworkContext = createContext(null);
+
+export const HouseworkProvider = ({ children }) => {
+  const [houseworkList, setHouseworkList] = useState([]);
+
+  return (
+    <HouseworkContext.Provider value={{ houseworkList, setHouseworkList }}>
+      {children}
+    </HouseworkContext.Provider>
+  );
+};
+
+export const useHousework = () => useContext(HouseworkContext);
+```
+```
+//AsyncStorageの要点コード
+
+const STORAGE_KEY = 'houseworkList';
+
+//読み込み処理
+const loadFromStorage = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
+      if (jsonValue != null) {
+        setHouseworkList(JSON.parse(jsonValue));
+      }
+    } catch (e) {
+      console.error('読み込みに失敗しました', e);
+    }
+  };
+
+//保存処理
+const saveToStorage = async (item) => {
+    try {
+      const jsonValue = JSON.stringify(item);
+      await AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+    } catch (e) {
+      console.error('保存に失敗しました', e);
+    }
+  };
+
+useEffect(() => {
+  loadFromStorage(); // 読み込み
+}, []);
+
+useEffect(() => {
+  saveToStorage(houseworkList); // 保存
+}, [houseworkList]);
+```
+
+#### 成果
+　ホーム画面で、Context経由で家事リスト(houseworkList)にアクセスし、今日の家事の表示や次回の予定日の算出を可能となった。、また、アプリ再起動後もユーザーの設定が保持されるため、利便性が向上した。
+
+### [位置情報を利用した天気情報の取得機能の実装]
+#### 背景・課題
+　ユーザーにその日の家事を促すためには、当日の環境情報を提供することで、よりパーソナライズされたアプリができると考えた。特に洗濯など天候に左右されやすい家事では、天気情報の有無が重要なため、天気情報を取得することを考えた。
+#### 解決策
+　React Nativeのexpo-locationを用いて位置情報を取得し、OpenWeatherMap APIを使用してその地点の天気をリアルタイムで取得する処理をuseEffectで実装した。
+```
+useEffect(() => {
+   const fetchWeather = async () => {
+         let { status } = await Location.requestForegroundPermissionsAsync();
+         if (status !== 'granted') return;
+
+            let location = await Location.getCurrentPositionAsync({});
+            const { latitude, longitude } = location.coords;
+
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja`
+            );
+            const data = await response.json();
+            setWeather(data);
+      };
+      fetchWeather();
+    }, []);
+```
+また、取得した天気情報の種類（晴れ、曇り、雨など）に応じて、アイコンを切り替えて表示することで視覚的に情報を伝える直感的なUIを実現した。
+#### 成果
+　アプリ起動時にユーザーの現在位置から天気情報が自動で表示されるようになり、その日の家事を計画する際の参考になる情報を提供できた。
+これにより、ユーザーは日々の生活環境に即した行動が取りやすくなり、アプリの利便性が向上した。
 
 # 6.スクリーンショット
 
