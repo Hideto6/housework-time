@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text} from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import * as Location from 'expo-location';
+import Constants from 'expo-constants';
+
+const { WEATHER_API_KEY } = Constants.expoConfig?.extra || {};
 
 const DateBox = () => {
     const today = new Date();
@@ -25,7 +28,7 @@ const DateBox = () => {
 
             //APIで天気情報を取得   
             const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=8eddf731f1eb9a4870d42cfa01ac52ae&units=metric&lang=ja`
+                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}&units=metric&lang=ja`
             );
             const data = await response.json();
             setWeather(data);

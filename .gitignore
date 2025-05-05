@@ -36,3 +36,7 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# 完全に .env 系を除外
+.env
+.env.*
