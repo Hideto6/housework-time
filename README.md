@@ -150,7 +150,7 @@ useEffect(() => {
             const { latitude, longitude } = location.coords;
 
             const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=APIキー&units=metric&lang=ja`
+                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}&units=metric&lang=ja`
             );
             const data = await response.json();
             setWeather(data);
@@ -164,10 +164,10 @@ useEffect(() => {
 これにより、ユーザーは日々の生活環境に即した行動が取りやすくなり、アプリの利便性が向上した。
 
 # 6.スクリーンショット
-![スクリーンショット](./assets/images/home.jpg)
-
-
-![スクリーンショット](./assets/images/setting.jpg)
+<p align="center">
+  <img src="./assets/images/home.jpg" alt="home" width="45%" />
+  <img src="./assets/images/setting.jpg" alt="setting" width="45%" />
+</p>
 
 # 7.まとめ
 　本アプリ「家事タイム」は、日々の家事を効率よく管理し、生活の質を高めることを目的に開発した。開発を通して、状態管理（Context APIとAsyncStorageの併用）や外部APIとの連携（OpenWeatherMap、位置情報取得）など、実用的な技術スキルを身につけることができた。また、バグの発見と解決を繰り返すことで、デバッグ力や問題解決力が向上し、React Nativeにおけるコンポーネント構造や状態管理、非同期処理の理解も深まった。今後は、通知機能や共有機能などの追加機能も検討し、より便利で継続的に使いたくなるアプリに成長させていきたい。
