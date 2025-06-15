@@ -48,25 +48,7 @@ import uuid from 'react-native-uuid';
 
 setHouseworkList([...houseworkList, { id: uuid.v4() ,text, category, week }]);
 ```
-```
-<FlatList
-   data={[...houseworkList].sort((a, b) => {
-      const weekOrder = {
-         '月曜日': 0,
-         '火曜日': 1,
-         '水曜日': 2,
-         '木曜日': 3,
-         '金曜日': 4,
-         '土曜日': 5,
-         '日曜日': 6,
-         };
-         return weekOrder[a.week] - weekOrder[b.week];
-      })}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()} 
-      contentContainerStyle={{ paddingTop: 20 }}
-/>
-```
+
 
 また、削除操作でも index ではなく id を基準にすることで、誤削除のリスクをなくした。
 
